@@ -1,0 +1,18 @@
+// torana-resilience — Resilience4j wrappers (circuit breaker, bulkhead, retry, time limiter)
+
+dependencies {
+    api project(':torana-core')
+
+    implementation 'io.github.resilience4j:resilience4j-reactor:2.3.0'
+    implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.3.0'
+    implementation 'io.github.resilience4j:resilience4j-bulkhead:2.3.0'
+    implementation 'io.github.resilience4j:resilience4j-retry:2.3.0'
+    implementation 'io.github.resilience4j:resilience4j-timelimiter:2.3.0'
+    implementation 'io.github.resilience4j:resilience4j-micrometer:2.3.0'
+    implementation 'io.projectreactor:reactor-core'
+
+    testImplementation project(':torana-test')
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.mockito:mockito-core'
+}

@@ -1,0 +1,20 @@
+// torana-security-authn — Authentication providers (JWT/OIDC, API Key, mTLS, SAML)
+
+dependencies {
+    api project(':torana-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.48'
+
+    // SAML (Phase 3 — keep as compileOnly so it's optional)
+    compileOnly 'org.springframework.security:spring-security-saml2-service-provider'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}

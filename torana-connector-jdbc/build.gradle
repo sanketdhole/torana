@@ -1,0 +1,22 @@
+// torana-connector-jdbc — Reactive SQL connector via R2DBC
+
+dependencies {
+    api project(':torana-core')
+    api project(':torana-resilience')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.r2dbc:r2dbc-spi:1.0.0.RELEASE'
+    implementation 'io.r2dbc:r2dbc-pool:1.0.2.RELEASE'
+    implementation 'org.springframework.data:spring-data-r2dbc'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Drivers as optional (enterprise supplies their own)
+    compileOnly 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testRuntimeOnly 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+}

@@ -1,0 +1,14 @@
+// torana-routing — YAML route registry + matching engine
+
+dependencies {
+    api project(':torana-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.cloud:spring-cloud-context'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}

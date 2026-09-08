@@ -1,0 +1,150 @@
+[versions]
+# Platform
+spring-boot        = "4.1.1"
+spring-cloud       = "2025.1.3"
+spring-security    = "6.5.0"
+
+# Reactive
+reactor-core       = "3.7.0"
+reactor-netty      = "1.2.0"
+
+# Resilience
+resilience4j       = "2.3.0"
+
+# Security & Secrets
+vault-java-driver  = "6.2.0"
+nimbus-jose        = "9.48"
+spring-saml2       = "6.5.0"
+
+# Data
+r2dbc-spi          = "1.0.0.RELEASE"
+r2dbc-postgresql   = "1.0.7.RELEASE"
+r2dbc-pool         = "1.0.2.RELEASE"
+mongodb-reactive   = "5.3.0"
+cassandra-reactive = "4.19.0"
+aws-sdk-v2         = "2.29.0"
+
+# gRPC
+grpc-java          = "1.69.0"
+protobuf-java      = "4.29.0"
+
+# Observability
+micrometer         = "1.14.0"
+opentelemetry      = "2.10.0"
+otel-instrumentation = "2.10.0"
+
+# Kafka
+kafka-clients      = "3.9.0"
+reactor-kafka      = "1.3.23"
+
+# Serialization
+jackson            = "2.18.0"
+jsonata-java       = "0.2.0"
+
+# Utilities
+lombok             = "1.18.36"
+mapstruct          = "1.6.3"
+caffeine           = "3.1.8"
+
+# Testing
+junit5             = "5.11.0"
+testcontainers     = "1.20.0"
+mockito            = "5.14.0"
+wiremock           = "3.9.0"
+reactor-test       = "3.7.0"
+gatling            = "3.12.0"
+
+[libraries]
+# Spring Boot
+spring-boot-starter-webflux           = { module = "org.springframework.boot:spring-boot-starter-webflux" }
+spring-boot-starter-security          = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-oauth2-resource   = { module = "org.springframework.boot:spring-boot-starter-security-oauth2-resource-server" }
+spring-boot-starter-actuator          = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-data-redis        = { module = "org.springframework.boot:spring-boot-starter-data-redis-reactive" }
+spring-boot-autoconfigure             = { module = "org.springframework.boot:spring-boot-autoconfigure" }
+spring-boot-configuration-processor   = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-cloud-starter-config           = { module = "org.springframework.cloud:spring-cloud-starter-config" }
+spring-cloud-context                  = { module = "org.springframework.cloud:spring-cloud-context" }
+spring-cloud-circuitbreaker-resilience4j = { module = "org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j" }
+
+# Reactor
+reactor-core                          = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
+reactor-netty-core                    = { module = "io.projectreactor.netty:reactor-netty-core", version.ref = "reactor-netty" }
+
+# Resilience4j
+resilience4j-reactor                  = { module = "io.github.resilience4j:resilience4j-reactor", version.ref = "resilience4j" }
+resilience4j-circuitbreaker           = { module = "io.github.resilience4j:resilience4j-circuitbreaker", version.ref = "resilience4j" }
+resilience4j-bulkhead                 = { module = "io.github.resilience4j:resilience4j-bulkhead", version.ref = "resilience4j" }
+resilience4j-retry                    = { module = "io.github.resilience4j:resilience4j-retry", version.ref = "resilience4j" }
+resilience4j-timelimiter              = { module = "io.github.resilience4j:resilience4j-timelimiter", version.ref = "resilience4j" }
+resilience4j-micrometer               = { module = "io.github.resilience4j:resilience4j-micrometer", version.ref = "resilience4j" }
+
+# Security
+nimbus-jose-jwt                       = { module = "com.nimbusds:nimbus-jose-jwt", version.ref = "nimbus-jose" }
+spring-security-saml2                 = { module = "org.springframework.security:spring-security-saml2-service-provider", version.ref = "spring-saml2" }
+
+# Vault
+vault-java-driver                     = { module = "com.bettercloud:vault-java-driver", version.ref = "vault-java-driver" }
+spring-vault-core                     = { module = "org.springframework.vault:spring-vault-core" }
+
+# Data
+r2dbc-spi                             = { module = "io.r2dbc:r2dbc-spi", version.ref = "r2dbc-spi" }
+r2dbc-postgresql                      = { module = "org.postgresql:r2dbc-postgresql", version.ref = "r2dbc-postgresql" }
+r2dbc-pool                            = { module = "io.r2dbc:r2dbc-pool", version.ref = "r2dbc-pool" }
+spring-data-mongodb-reactive          = { module = "org.springframework.boot:spring-boot-starter-data-mongodb-reactive" }
+aws-sdk-s3                            = { module = "software.amazon.awssdk:s3", version.ref = "aws-sdk-v2" }
+aws-sdk-sts                           = { module = "software.amazon.awssdk:sts", version.ref = "aws-sdk-v2" }
+aws-sdk-netty                         = { module = "software.amazon.awssdk:netty-nio-client", version.ref = "aws-sdk-v2" }
+
+# gRPC
+grpc-netty-shaded                     = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc-java" }
+grpc-stub                             = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
+grpc-protobuf                         = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
+protobuf-java-util                    = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf-java" }
+
+# Observability
+micrometer-core                       = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
+micrometer-registry-prometheus        = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "micrometer" }
+opentelemetry-api                     = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
+opentelemetry-sdk                     = { module = "io.opentelemetry:opentelemetry-sdk", version.ref = "opentelemetry" }
+opentelemetry-exporter-otlp           = { module = "io.opentelemetry:opentelemetry-exporter-otlp", version.ref = "opentelemetry" }
+micrometer-tracing-otel               = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
+
+# Kafka
+reactor-kafka                         = { module = "io.projectreactor.kafka:reactor-kafka", version.ref = "reactor-kafka" }
+
+# Serialization
+jackson-databind                      = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-dataformat-yaml               = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+jackson-datatype-jsr310               = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+
+# Utilities
+lombok                                = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mapstruct                             = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+caffeine                              = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
+
+# Testing
+junit-bom                             = { module = "org.junit:junit-bom", version.ref = "junit5" }
+junit-jupiter                         = { module = "org.junit.jupiter:junit-jupiter" }
+testcontainers-bom                    = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-junit5                 = { module = "org.testcontainers:junit-jupiter" }
+testcontainers-redis                  = { module = "com.redis:testcontainers-redis", version = "2.2.2" }
+testcontainers-kafka                  = { module = "org.testcontainers:kafka" }
+testcontainers-vault                  = { module = "org.testcontainers:vault" }
+wiremock                              = { module = "org.wiremock:wiremock-standalone", version.ref = "wiremock" }
+mockito-core                          = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+reactor-test                          = { module = "io.projectreactor:reactor-test", version.ref = "reactor-test" }
+spring-security-test                  = { module = "org.springframework.security:spring-security-test" }
+
+[plugins]
+spring-boot                           = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency-management          = { id = "io.spring.dependency-management", version = "1.1.7" }
+protobuf                              = { id = "com.google.protobuf", version = "0.9.4" }
+lombok                                = { id = "io.freefair.lombok", version = "8.10" }
+
+[bundles]
+resilience4j                          = ["resilience4j-reactor", "resilience4j-circuitbreaker", "resilience4j-bulkhead", "resilience4j-retry", "resilience4j-timelimiter"]
+jackson                               = ["jackson-databind", "jackson-dataformat-yaml", "jackson-datatype-jsr310"]
+aws-s3                                = ["aws-sdk-s3", "aws-sdk-sts", "aws-sdk-netty"]
+grpc                                  = ["grpc-netty-shaded", "grpc-stub", "grpc-protobuf", "protobuf-java-util"]
+testing-base                          = ["junit-jupiter", "mockito-core", "reactor-test"]

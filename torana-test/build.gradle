@@ -1,0 +1,24 @@
+// torana-test — Shared test utilities, Testcontainers fixtures, mock builders
+
+dependencies {
+    api project(':torana-core')
+
+    api 'org.junit.jupiter:junit-jupiter'
+    api 'org.mockito:mockito-core'
+    api 'io.projectreactor:reactor-test'
+    api 'org.springframework.boot:spring-boot-test'
+    api 'org.springframework.security:spring-security-test'
+    api 'org.wiremock:wiremock-standalone:3.9.0'
+
+    api 'org.testcontainers:junit-jupiter'
+    api 'org.testcontainers:kafka'
+    api 'com.redis:testcontainers-redis:2.2.2'
+    api 'org.testcontainers:vault'
+    api 'org.testcontainers:mongodb'
+    api 'org.testcontainers:postgresql'
+    api 'org.testcontainers:localstack'
+}
+
+// Test utilities are always a library, never a bootable jar
+bootJar.enabled = false
+jar.enabled = true

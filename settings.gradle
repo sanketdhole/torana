@@ -1,1 +1,52 @@
 rootProject.name = 'torana'
+
+// ─── Version Catalog ──────────────────────────────────────────────────────────
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files("gradle/libs.versions.toml"))
+        }
+    }
+}
+
+// ─── Sub-modules ──────────────────────────────────────────────────────────────
+
+// Kernel
+include 'torana-bom'
+include 'torana-core'
+include 'torana-autoconfigure'
+
+// Protocol adapters
+include 'torana-protocol-mcp'
+include 'torana-protocol-websocket'
+include 'torana-protocol-grpc'
+include 'torana-protocol-rest'
+
+// Security
+include 'torana-security-authn'
+include 'torana-security-authz-opa'
+include 'torana-security-vault'
+
+// Routing & Pipeline
+include 'torana-routing'
+include 'torana-pipeline'
+
+// Resilience & Rate Limiting
+include 'torana-resilience'
+include 'torana-ratelimit-redis'
+
+// Backend Connectors
+include 'torana-connector-litellm'
+include 'torana-connector-http'
+include 'torana-connector-jdbc'
+include 'torana-connector-nosql'
+include 'torana-connector-s3'
+include 'torana-connector-nfs'
+
+// Cross-cutting
+include 'torana-streaming'
+include 'torana-observability'
+
+// Packaging & Testing
+include 'torana-starter'
+include 'torana-test'

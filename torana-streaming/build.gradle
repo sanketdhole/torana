@@ -1,0 +1,17 @@
+// torana-streaming — Unified SSE / WebSocket / ndjson / gRPC streaming layer
+
+dependencies {
+    api project(':torana-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.projectreactor:reactor-core'
+    implementation 'io.projectreactor.netty:reactor-netty-core'
+
+    // gRPC streaming support (optional)
+    compileOnly 'io.grpc:grpc-stub:1.69.0'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}

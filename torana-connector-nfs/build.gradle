@@ -1,0 +1,14 @@
+// torana-connector-nfs — NFS/block storage connector using virtual threads for blocking I/O
+
+dependencies {
+    api project(':torana-core')
+    api project(':torana-resilience')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.projectreactor:reactor-core'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}

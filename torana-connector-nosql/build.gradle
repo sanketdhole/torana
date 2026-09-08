@@ -1,0 +1,22 @@
+// torana-connector-nosql — MongoDB and Cassandra reactive connectors
+
+dependencies {
+    api project(':torana-core')
+    api project(':torana-resilience')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // MongoDB reactive (optional)
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    // Cassandra reactive (optional)
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-cassandra-reactive'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.testcontainers:mongodb'
+    testRuntimeOnly 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+}

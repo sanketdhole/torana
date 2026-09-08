@@ -1,0 +1,40 @@
+// torana-starter — Convenience Spring Boot starter: pull this one dep to get everything
+
+plugins {
+    id 'org.springframework.boot' version '4.1.1'
+}
+
+dependencies {
+    api project(':torana-autoconfigure')
+    api project(':torana-core')
+
+    // All modules included by default — enterprise can exclude what they don't need
+    api project(':torana-protocol-mcp')
+    api project(':torana-protocol-websocket')
+    api project(':torana-protocol-rest')
+    api project(':torana-security-authn')
+    api project(':torana-security-authz-opa')
+    api project(':torana-routing')
+    api project(':torana-pipeline')
+    api project(':torana-resilience')
+    api project(':torana-ratelimit-redis')
+    api project(':torana-connector-litellm')
+    api project(':torana-connector-http')
+    api project(':torana-streaming')
+    api project(':torana-observability')
+
+    // Optional modules — included but easily excluded
+    compileOnly project(':torana-protocol-grpc')
+    compileOnly project(':torana-security-vault')
+    compileOnly project(':torana-connector-jdbc')
+    compileOnly project(':torana-connector-nosql')
+    compileOnly project(':torana-connector-s3')
+    compileOnly project(':torana-connector-nfs')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+// Do not produce a fat jar for the starter — it is a library
+bootJar.enabled = false
+jar.enabled = true

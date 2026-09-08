@@ -1,0 +1,17 @@
+// torana-core — SPI interfaces, domain model, configuration schema
+// ZERO runtime dependencies beyond Spring core + Reactor.
+// All other modules depend on this one.
+
+dependencies {
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+    api 'io.projectreactor:reactor-core'
+    api 'com.fasterxml.jackson.core:jackson-databind'
+    api 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.mockito:mockito-core'
+}

@@ -1,0 +1,15 @@
+// torana-connector-litellm — LiteLLM / OpenAI-compatible LLM connector
+
+dependencies {
+    api project(':torana-core')
+    api project(':torana-resilience')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.wiremock:wiremock-standalone:3.9.0'
+}

@@ -1,0 +1,35 @@
+// torana-autoconfigure — Spring Boot Auto-configuration
+// Wires all modules together. Depends on ALL other modules (optional at runtime).
+
+dependencies {
+    implementation project(':torana-core')
+
+    // All modules are optional — pulled in only when on the classpath
+    compileOnly project(':torana-protocol-mcp')
+    compileOnly project(':torana-protocol-websocket')
+    compileOnly project(':torana-protocol-grpc')
+    compileOnly project(':torana-protocol-rest')
+    compileOnly project(':torana-security-authn')
+    compileOnly project(':torana-security-authz-opa')
+    compileOnly project(':torana-security-vault')
+    compileOnly project(':torana-routing')
+    compileOnly project(':torana-pipeline')
+    compileOnly project(':torana-resilience')
+    compileOnly project(':torana-ratelimit-redis')
+    compileOnly project(':torana-connector-litellm')
+    compileOnly project(':torana-connector-http')
+    compileOnly project(':torana-connector-jdbc')
+    compileOnly project(':torana-connector-nosql')
+    compileOnly project(':torana-connector-s3')
+    compileOnly project(':torana-connector-nfs')
+    compileOnly project(':torana-streaming')
+    compileOnly project(':torana-observability')
+
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}

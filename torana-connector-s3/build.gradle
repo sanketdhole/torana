@@ -1,0 +1,18 @@
+// torana-connector-s3 — AWS S3 connector using non-blocking S3AsyncClient
+
+dependencies {
+    api project(':torana-core')
+    api project(':torana-resilience')
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'software.amazon.awssdk:s3:2.29.0'
+    implementation 'software.amazon.awssdk:sts:2.29.0'
+    implementation 'software.amazon.awssdk:netty-nio-client:2.29.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.testcontainers:localstack'
+}
