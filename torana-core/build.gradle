@@ -4,6 +4,8 @@
 
 dependencies {
     api 'org.springframework.boot:spring-boot-autoconfigure'
+    api 'org.springframework:spring-webflux'
+    api 'jakarta.validation:jakarta.validation-api'
     api 'io.projectreactor:reactor-core'
     api 'com.fasterxml.jackson.core:jackson-databind'
     api 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
