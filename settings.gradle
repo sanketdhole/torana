@@ -1,13 +1,5 @@
 rootProject.name = 'torana'
 
-// ─── Version Catalog ──────────────────────────────────────────────────────────
-dependencyResolutionManagement {
-    versionCatalogs {
-        libs {
-            from(files("gradle/libs.versions.toml"))
-        }
-    }
-}
 
 // ─── Sub-modules ──────────────────────────────────────────────────────────────
 

@@ -1,9 +1,5 @@
 // torana-starter — Convenience Spring Boot starter: pull this one dep to get everything
 
-plugins {
-    id 'org.springframework.boot' version '4.1.1'
-}
-
 dependencies {
     api project(':torana-autoconfigure')
     api project(':torana-core')
@@ -34,7 +30,3 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
-
-// Do not produce a fat jar for the starter — it is a library
-bootJar.enabled = false
-jar.enabled = true

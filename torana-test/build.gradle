@@ -18,7 +18,3 @@ dependencies {
     api 'org.testcontainers:postgresql'
     api 'org.testcontainers:localstack'
 }
-
-// Test utilities are always a library, never a bootable jar
-bootJar.enabled = false
-jar.enabled = true
