@@ -4,7 +4,7 @@
 
 [![Java 17](https://img.shields.io/badge/Java-17-blue)](https://openjdk.org/projects/jdk/17/)
 [![Spring Boot 4](https://img.shields.io/badge/Spring%20Boot-4.1.1-green)](https://spring.io/projects/spring-boot)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm%20Noncommercial-orange.svg)](LICENSE)
 
 ---
 
@@ -382,4 +382,7 @@ curl http://localhost:8080/actuator/health
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE)
+Torana is licensed under the **PolyForm Noncommercial License 1.0.0** — see [LICENSE](LICENSE).
+
+- **Non-Commercial Use**: Free to use, modify, and distribute for non-commercial, personal, academic, and evaluation purposes.
+- **Commercial Use**: Commercial usage (with or without modifications) requires a commercial enterprise license. Contact `licensing@phaselume.com` or visit [phaselume.com](https://phaselume.com).
