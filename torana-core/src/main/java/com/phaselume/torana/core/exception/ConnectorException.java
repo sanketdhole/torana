@@ -11,9 +11,16 @@ public class ConnectorException extends ToranaException {
 
     private final String connectorType;
 
+    public ConnectorException(String message) {
+        this("unknown", message, null);
+    }
+
+    public ConnectorException(String message, Throwable cause) {
+        this("unknown", message, cause);
+    }
+
     public ConnectorException(String connectorType, String message) {
-        super("CONNECTOR_ERROR", message, HttpStatus.BAD_GATEWAY, null, Map.of("connectorType", connectorType != null ? connectorType : "unknown"));
-        this.connectorType = connectorType;
+        this(connectorType, message, null);
     }
 
     public ConnectorException(String connectorType, String message, Throwable cause) {

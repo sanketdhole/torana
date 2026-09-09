@@ -29,6 +29,11 @@ public class MockBackendConnector implements BackendConnector {
         this.type = type;
     }
 
+    public MockBackendConnector(String type, List<AgentResponse.Chunk> stubbedChunks) {
+        this(type);
+        returnsChunks(stubbedChunks);
+    }
+
     public MockBackendConnector returnsChunks(List<AgentResponse.Chunk> chunks) {
         this.stubbedChunks = chunks != null ? new ArrayList<>(chunks) : new ArrayList<>();
         this.stubbedError = null;
