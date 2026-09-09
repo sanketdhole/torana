@@ -12,6 +12,7 @@ dependencies {
     implementation 'io.grpc:grpc-netty-shaded:1.69.0'
     implementation 'io.grpc:grpc-stub:1.69.0'
     implementation 'io.grpc:grpc-protobuf:1.69.0'
+    implementation 'io.grpc:grpc-services:1.69.0'
     implementation 'com.google.protobuf:protobuf-java-util:4.29.0'
 
     testImplementation project(':torana-test')

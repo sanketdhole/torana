@@ -19,6 +19,7 @@ dependencies {
         api "io.grpc:grpc-netty-shaded:1.69.0"
         api "io.grpc:grpc-stub:1.69.0"
         api "io.grpc:grpc-protobuf:1.69.0"
+        api "io.grpc:grpc-services:1.69.0"
         api "com.google.protobuf:protobuf-java-util:4.29.0"
         api "io.opentelemetry:opentelemetry-api:2.10.0"
         api "io.opentelemetry:opentelemetry-sdk:2.10.0"

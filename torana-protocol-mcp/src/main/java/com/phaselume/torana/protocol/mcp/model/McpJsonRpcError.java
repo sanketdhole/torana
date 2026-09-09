@@ -52,8 +52,7 @@ public class McpJsonRpcError {
         return new McpJsonRpcError(TOOL_NOT_FOUND, "Tool not found: " + toolName, null);
     }
 
-    public static McpJsonRpcError invalidRequest(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'invalidRequest'");
+    public static McpJsonRpcError invalidRequest(String message) {
+        return new McpJsonRpcError(INVALID_REQUEST, message != null ? message : "Invalid Request", null);
     }
 }

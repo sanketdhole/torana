@@ -1,0 +1,39 @@
+syntax = "proto3";
+package torana.v1;
+
+option java_multiple_files = true;
+option java_package = "com.phaselume.torana.protocol.grpc.proto";
+option java_outer_classname = "AgentProto";
+
+service AgentGateway {
+  // Unary: single request -> single response
+  rpc Call(AgentCallRequest) returns (AgentCallResponse);
+
+  // Server streaming: single request -> stream of chunks
+  rpc Stream(AgentCallRequest) returns (stream AgentChunk);
+
+  // Bidi streaming: stream of requests -> stream of responses (A2A use case)
+  rpc Exchange(stream AgentCallRequest) returns (stream AgentChunk);
+}
+
+message AgentCallRequest {
+  string route_id = 1;
+  map<string, string> headers = 2;
+  bytes body = 3;
+  string trace_id = 4;
+  string tenant_id = 5;
+}
+
+message AgentCallResponse {
+  int32 status_code = 1;
+  map<string, string> headers = 2;
+  bytes body = 3;
+}
+
+message AgentChunk {
+  string delta = 1;
+  bool is_final = 2;
+  string finish_reason = 3;
+  int32 token_count = 4;
+  map<string, string> metadata = 5;
+}

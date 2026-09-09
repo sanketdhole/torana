@@ -100,6 +100,7 @@ aws-sdk-netty                         = { module = "software.amazon.awssdk:netty
 grpc-netty-shaded                     = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc-java" }
 grpc-stub                             = { module = "io.grpc:grpc-stub", version.ref = "grpc-java" }
 grpc-protobuf                         = { module = "io.grpc:grpc-protobuf", version.ref = "grpc-java" }
+grpc-services                         = { module = "io.grpc:grpc-services", version.ref = "grpc-java" }
 protobuf-java-util                    = { module = "com.google.protobuf:protobuf-java-util", version.ref = "protobuf-java" }
 
 # Observability
@@ -146,5 +147,5 @@ lombok                                = { id = "io.freefair.lombok", version = "
 resilience4j                          = ["resilience4j-reactor", "resilience4j-circuitbreaker", "resilience4j-bulkhead", "resilience4j-retry", "resilience4j-timelimiter"]
 jackson                               = ["jackson-databind", "jackson-dataformat-yaml", "jackson-datatype-jsr310"]
 aws-s3                                = ["aws-sdk-s3", "aws-sdk-sts", "aws-sdk-netty"]
-grpc                                  = ["grpc-netty-shaded", "grpc-stub", "grpc-protobuf", "protobuf-java-util"]
+grpc                                  = ["grpc-netty-shaded", "grpc-stub", "grpc-protobuf", "grpc-services", "protobuf-java-util"]
 testing-base                          = ["junit-jupiter", "mockito-core", "reactor-test"]
