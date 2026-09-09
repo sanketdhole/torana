@@ -102,7 +102,143 @@ public class ToranaProperties {
             @Builder.Default
             private String defaultProvider = "jwt";
             @Builder.Default
+            private String chainMode = "first-match"; // first-match, all-required, any-of
+            @Builder.Default
+            private boolean allowAnonymous = false;
+            @Builder.Default
+            private JwtConfig jwt = new JwtConfig();
+            @Builder.Default
+            private ApiKeyConfig apiKey = new ApiKeyConfig();
+            @Builder.Default
+            private MtlsConfig mtls = new MtlsConfig();
+            @Builder.Default
+            private OutboundAuthnConfig outbound = new OutboundAuthnConfig();
+            @Builder.Default
             private Map<String, Object> providers = new HashMap<>();
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class JwtConfig {
+                @Builder.Default
+                private boolean enabled = true;
+                @Builder.Default
+                private List<JwtIssuerConfig> issuers = new ArrayList<>();
+                @Builder.Default
+                private String defaultAudience = "torana-gateway";
+                @Builder.Default
+                private long jwksCacheTtlSeconds = 300;
+                @Builder.Default
+                private String scopeClaim = "scp";
+                @Builder.Default
+                private String rolesClaim = "roles";
+                @Builder.Default
+                private String tenantClaim = "tenant_id";
+                @Builder.Default
+                private String principalClaim = "sub";
+            }
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class JwtIssuerConfig {
+                private String uri;
+                private String jwksUri;
+                private String audience;
+                private String scopeClaim;
+                private String rolesClaim;
+                private String tenantClaim;
+                private String principalClaim;
+                @Builder.Default
+                private long jwksCacheTtlSeconds = 300;
+            }
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class ApiKeyConfig {
+                @Builder.Default
+                private boolean enabled = true;
+                @Builder.Default
+                private String header = "X-Api-Key";
+                @Builder.Default
+                private boolean allowQueryParam = false;
+                @Builder.Default
+                private String queryParamName = "api_key";
+                @Builder.Default
+                private String redisPrefix = "torana:apikey:";
+                @Builder.Default
+                private long rotationGracePeriodSeconds = 86400; // 24 hours
+            }
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class MtlsConfig {
+                @Builder.Default
+                private boolean enabled = false;
+                private String trustStore;
+                private String trustStorePassword;
+                @Builder.Default
+                private String principalField = "CN"; // CN, OU, SAN, EMAIL
+                @Builder.Default
+                private String clientCertHeader = "X-Forwarded-Client-Cert";
+                @Builder.Default
+                private boolean crlCheckEnabled = false;
+                @Builder.Default
+                private long crlCacheTtlSeconds = 3600;
+            }
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class OutboundAuthnConfig {
+                @Builder.Default
+                private boolean enabled = true;
+                @Builder.Default
+                private String defaultPolicy = "MINT_INTERNAL_JWT"; // MINT_INTERNAL_JWT, FORWARD_CALLER_TOKEN, INJECT_API_KEY, PROPAGATE_IDENTITY_HEADERS, NONE
+                @Builder.Default
+                private JwtSignerConfig jwtSigner = new JwtSignerConfig();
+                @Builder.Default
+                private Map<String, ServiceOutboundConfig> services = new HashMap<>();
+
+                @Data
+                @Builder
+                @NoArgsConstructor
+                @AllArgsConstructor
+                public static class JwtSignerConfig {
+                    @Builder.Default
+                    private String issuer = "torana-gateway";
+                    @Builder.Default
+                    private String secret = "torana-internal-cluster-secret-key-change-me-in-production-32bytes";
+                    @Builder.Default
+                    private long tokenTtlSeconds = 300; // 5 mins
+                    @Builder.Default
+                    private String algorithm = "HS256"; // HS256, RS256
+                    private String privateKeyPem;
+                    @Builder.Default
+                    private String keyId = "torana-gw-1";
+                }
+
+                @Data
+                @Builder
+                @NoArgsConstructor
+                @AllArgsConstructor
+                public static class ServiceOutboundConfig {
+                    private String policy; // override defaultPolicy for this service
+                    private String audience;
+                    private String apiKeyHeader;
+                    private String apiKeyValue;
+                    private String bearerToken;
+                    @Builder.Default
+                    private Map<String, String> customHeaders = new HashMap<>();
+                }
+            }
         }
 
         @Data
