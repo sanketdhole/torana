@@ -18,7 +18,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,8 @@ import java.util.Set;
 
 /**
  * Main reactive orchestrator for pipeline execution.
- * Executes steps sequentially, applies timeouts, handles short-circuiting, and triggers fallbacks.
+ * Executes steps sequentially, applies timeouts, handles short-circuiting, and
+ * triggers fallbacks.
  */
 @Component
 public class PipelineExecutor {
@@ -58,8 +58,7 @@ public class PipelineExecutor {
         if (pipelineOpt.isEmpty()) {
             return Mono.error(new PipelineException(
                     "Pipeline not found: " + pipelineName,
-                    ErrorCode.NOT_FOUND
-            ));
+                    ErrorCode.NOT_FOUND));
         }
 
         return execute(pipelineOpt.get(), context);
@@ -90,7 +89,8 @@ public class PipelineExecutor {
                 })
                 .onErrorResume(error -> {
                     Duration duration = Duration.between(startTime, Instant.now());
-                    log.error("Pipeline '{}' failed after {} ms: {}", pipelineName, duration.toMillis(), error.getMessage());
+                    log.error("Pipeline '{}' failed after {} ms: {}", pipelineName, duration.toMillis(),
+                            error.getMessage());
                     return Mono.just(PipelineResult.failure(pipelineName, initialContext, error, duration));
                 });
     }
@@ -136,7 +136,8 @@ public class PipelineExecutor {
         }
 
         // Apply timeout to this pipeline execution
-        Mono<AgentContext> timedChain = PipelineTimeoutOperator.applyTimeout(chain, pipeline.getTimeout(), pipelineName);
+        Mono<AgentContext> timedChain = PipelineTimeoutOperator.applyTimeout(chain, pipeline.getTimeout(),
+                pipelineName);
 
         // Fallback handling on error
         return timedChain.onErrorResume(error -> {
