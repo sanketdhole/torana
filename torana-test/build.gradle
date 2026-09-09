@@ -7,8 +7,10 @@ dependencies {
     api 'org.mockito:mockito-core'
     api 'io.projectreactor:reactor-test'
     api 'org.springframework.boot:spring-boot-test'
+    api 'org.springframework:spring-webflux'
     api 'org.springframework.security:spring-security-test'
     api 'org.wiremock:wiremock-standalone:3.9.0'
+    api 'com.nimbusds:nimbus-jose-jwt:9.48'
 
     api 'org.testcontainers:junit-jupiter'
     api 'org.testcontainers:kafka'
