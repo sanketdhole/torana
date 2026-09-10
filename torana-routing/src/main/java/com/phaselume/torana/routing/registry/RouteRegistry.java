@@ -30,18 +30,23 @@ public class RouteRegistry {
     }
 
     /**
-     * Atomically replaces the current routes with a new list.
+     * Atomically replaces the current routes with a new pre-sorted list.
      */
     public void setRoutes(List<RouteDefinition> newRoutes) {
         this.routes.clear();
-        if (newRoutes != null) {
-            this.routes.addAll(newRoutes);
+        if (newRoutes != null && !newRoutes.isEmpty()) {
+            List<RouteDefinition> sorted = routeMatcher.sortRoutesByPriority(newRoutes);
+            this.routes.addAll(sorted);
         }
     }
 
     public void addRoute(RouteDefinition route) {
         if (route != null) {
-            this.routes.add(route);
+            java.util.List<RouteDefinition> updated = new java.util.ArrayList<>(this.routes);
+            updated.add(route);
+            java.util.List<RouteDefinition> sorted = routeMatcher.sortRoutesByPriority(updated);
+            this.routes.clear();
+            this.routes.addAll(sorted);
         }
     }
 

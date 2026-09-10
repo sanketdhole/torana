@@ -29,15 +29,14 @@ public class RouteMatcher {
     }
 
     /**
-     * Finds the first matching route from the provided route list.
+     * Finds the first matching route from the provided pre-sorted route list.
      */
     public Optional<RouteDefinition> match(List<RouteDefinition> routes, String path, HttpMethod method, HttpHeaders headers, String protocol) {
         if (routes == null || routes.isEmpty() || path == null) {
             return Optional.empty();
         }
 
-        List<RouteDefinition> sorted = sortRoutesByPriority(routes);
-        for (RouteDefinition route : sorted) {
+        for (RouteDefinition route : routes) {
             if (compositeMatcher.matches(route, path, method, headers, protocol)) {
                 return Optional.of(route);
             }

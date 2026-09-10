@@ -69,4 +69,27 @@ class RouteRegistryTest {
         assertEquals(1, publishedEvent.get().getPreviousRoutes().size());
         assertEquals(1, publishedEvent.get().getCurrentRoutes().size());
     }
+
+    @Test
+    void testRoutesAreAutomaticallyPreSortedOnWrite() {
+        RouteRegistry registry = new RouteRegistry();
+        RouteDefinition wildcard = RouteDefinition.builder().id("wildcard").path("/**").build();
+        RouteDefinition prefix = RouteDefinition.builder().id("prefix").path("/api/v1/**").build();
+        RouteDefinition exact = RouteDefinition.builder().id("exact").path("/api/v1/chat").build();
+
+        // Pass in reverse priority order
+        registry.setRoutes(List.of(wildcard, prefix, exact));
+
+        assertEquals(3, registry.size());
+        assertEquals("exact", registry.getRoutes().get(0).getId());
+        assertEquals("prefix", registry.getRoutes().get(1).getId());
+        assertEquals("wildcard", registry.getRoutes().get(2).getId());
+
+        // Test addRoute preserves priority (longer exact path /api/v1/chat has higher priority than /health)
+        RouteDefinition topExact = RouteDefinition.builder().id("top").path("/health").build();
+        registry.addRoute(topExact);
+        assertEquals(4, registry.size());
+        assertEquals("exact", registry.getRoutes().get(0).getId());
+        assertEquals("top", registry.getRoutes().get(1).getId());
+    }
 }

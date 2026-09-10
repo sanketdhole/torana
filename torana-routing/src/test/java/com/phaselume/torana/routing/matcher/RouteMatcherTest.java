@@ -111,8 +111,8 @@ class RouteMatcherTest {
                 .path("/api/v1/chat")
                 .build();
 
-        // Pass in reverse order to test sorting
-        List<RouteDefinition> routes = List.of(wildcard, prefix, exact);
+        // Pre-sort routes as RouteRegistry would
+        List<RouteDefinition> routes = routeMatcher.sortRoutesByPriority(List.of(wildcard, prefix, exact));
 
         // 1. Should match exact
         Optional<RouteDefinition> matchExact = routeMatcher.match(
