@@ -1,0 +1,16 @@
+apiVersion: v2
+name: torana
+description: Enterprise AI Agent API Gateway - Zero-Trust MCP, REST, WebSocket & gRPC traffic router
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - api-gateway
+  - ai-agents
+  - mcp
+  - zerotrust
+  - reactive
+  - opa
+maintainers:
+  - name: Phaselume Engineering
+    email: engineering@phaselume.com

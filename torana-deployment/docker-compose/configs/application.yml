@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, prometheus
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+torana:
+  observability:
+    metrics:
+      enabled: true
+    tracing:
+      enabled: true
+      otlp-endpoint: http://otel-collector:4317
+    audit:
+      enabled: true
+      redis-stream-key: torana:audit:stream
+    health:
+      opa-url: http://opa:8181/health
+
+  security:
+    authz:
+      opa:
+        enabled: true
+        url: http://opa:8181/v1/data/torana/authz

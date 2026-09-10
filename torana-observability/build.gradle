@@ -4,14 +4,15 @@ dependencies {
     api project(':torana-core')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-health'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'io.micrometer:micrometer-tracing-bridge-otel'
-    implementation 'io.opentelemetry:opentelemetry-api:2.10.0'
-    implementation 'io.opentelemetry:opentelemetry-sdk:2.10.0'
-    implementation 'io.opentelemetry:opentelemetry-exporter-otlp:2.10.0'
+    implementation 'io.opentelemetry:opentelemetry-api'
+    implementation 'io.opentelemetry:opentelemetry-sdk'
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     // Kafka audit sink (optional)

@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  torana-gateway:
+    build:
+      context: ../../
+      dockerfile: torana-deployment/docker/Dockerfile
+    image: phaselume/torana-gateway:latest
+    container_name: torana-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080" # Gateway traffic
+      - "8081:8081" # Actuator / Metrics
+      - "9090:9090" # gRPC
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - TORANA_SECURITY_AUTHZ_OPA_URL=http://opa:8181/v1/data/torana/authz
+      - TORANA_OBSERVABILITY_TRACING_OTLP_ENDPOINT=http://otel-collector:4317
+    volumes:
+      - ./configs/application.yml:/app/config/application.yml:ro
+    depends_on:
+      - redis
+      - opa
+      - otel-collector
+    networks:
+      - torana-net
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: torana-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --save 60 1
+    volumes:
+      - redis-data:/data
+    networks:
+      - torana-net
+
+  opa:
+    image: openpolicyagent/opa:0.68.0-alpine
+    container_name: torana-opa
+    restart: unless-stopped
+    ports:
+      - "8181:8181"
+    command:
+      - "run"
+      - "--server"
+      - "--addr=0.0.0.0:8181"
+      - "/policies"
+    volumes:
+      - ./configs/torana-base-policy.rego:/policies/torana-base-policy.rego:ro
+    networks:
+      - torana-net
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.98.0
+    container_name: torana-otel-collector
+    restart: unless-stopped
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./configs/otel-collector-config.yml:/etc/otel-collector-config.yml:ro
+    ports:
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318" # OTLP HTTP receiver
+      - "8889:8889" # Prometheus exporter metrics
+    networks:
+      - torana-net
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: torana-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9091:9090"
+    depends_on:
+      - torana-gateway
+    networks:
+      - torana-net
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: torana-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=torana
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - torana-net
+
+  mock-backend:
+    image: wiremock/wiremock:3.5.2-alpine
+    container_name: torana-mock-backend
+    restart: unless-stopped
+    ports:
+      - "8089:8080"
+    networks:
+      - torana-net
+
+networks:
+  torana-net:
+    driver: bridge
+
+volumes:
+  redis-data:
+  prometheus-data:
+  grafana-data:

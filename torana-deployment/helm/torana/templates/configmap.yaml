@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "torana.fullname" . }}-config
+  labels:
+    {{- include "torana.labels" . | nindent 4 }}
+data:
+  application.yml: |
+    {{- toYaml .Values.config | nindent 4 }}

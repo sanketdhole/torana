@@ -1,0 +1,125 @@
+replicaCount: 3
+
+image:
+  repository: phaselume/torana-gateway
+  pullPolicy: IfNotPresent
+  tag: "0.1.0"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/actuator/prometheus"
+  prometheus.io/port: "8081"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+service:
+  type: ClusterIP
+  httpPort: 8080
+  managementPort: 8081
+  grpcPort: 9090
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "64m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  hosts:
+    - host: gateway.torana.local
+      paths:
+        - path: /
+          pathType: Prefix
+          port: 8080
+  tls:
+    - secretName: torana-gateway-tls
+      hosts:
+        - gateway.torana.local
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8081
+  initialDelaySeconds: 15
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 2
+
+env:
+  - name: JAVA_OPTS
+    value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC"
+  - name: SPRING_PROFILES_ACTIVE
+    value: "kubernetes,production"
+
+config:
+  spring:
+    data:
+      redis:
+        host: "redis-master.redis.svc.cluster.local"
+        port: 6379
+  torana:
+    observability:
+      metrics:
+        enabled: true
+      tracing:
+        enabled: true
+        otlp-endpoint: "http://otel-collector.observability.svc.cluster.local:4317"
+      audit:
+        enabled: true
+        redis-stream-key: "torana:audit:stream"
+      health:
+        opa-url: "http://opa.opa.svc.cluster.local:8181/health"
+    security:
+      authz:
+        opa:
+          enabled: true
+          url: "http://opa.opa.svc.cluster.local:8181/v1/data/torana/authz"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
