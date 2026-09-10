@@ -252,6 +252,25 @@ public class ToranaProperties {
             private String opaUrl = "http://localhost:8181/v1/data/torana/authz";
             @Builder.Default
             private String policyPackage = "torana.authz";
+            @Builder.Default
+            private long timeoutMs = 2000;
+            @Builder.Default
+            private boolean failOpen = false;
+            @Builder.Default
+            private OpaCacheProperties cache = new OpaCacheProperties();
+
+            @Data
+            @Builder
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class OpaCacheProperties {
+                @Builder.Default
+                private boolean enabled = false;
+                @Builder.Default
+                private long ttlSeconds = 5;
+                @Builder.Default
+                private String redisPrefix = "torana:authz:opa:";
+            }
         }
 
         @Data
