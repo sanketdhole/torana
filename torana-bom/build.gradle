@@ -37,7 +37,6 @@ dependencies {
         api "io.github.resilience4j:resilience4j-timelimiter:2.3.0"
         api "io.github.resilience4j:resilience4j-micrometer:2.3.0"
         api "com.nimbusds:nimbus-jose-jwt:9.48"
-        api "com.bettercloud:vault-java-driver:6.2.0"
         api "io.r2dbc:r2dbc-spi:1.0.0.RELEASE"
         api "org.postgresql:r2dbc-postgresql:1.0.7.RELEASE"
         api "io.r2dbc:r2dbc-pool:1.0.2.RELEASE"

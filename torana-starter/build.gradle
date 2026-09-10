@@ -29,4 +29,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testImplementation project(':torana-test')
+    testImplementation 'org.springframework.boot:spring-boot-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core'
 }

@@ -5,7 +5,6 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.vault:spring-vault-core'
-    implementation 'com.bettercloud:vault-java-driver:6.2.0'
 
     testImplementation project(':torana-test')
     testImplementation 'org.springframework.boot:spring-boot-test'

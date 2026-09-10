@@ -4,32 +4,38 @@
 dependencies {
     implementation project(':torana-core')
 
-    // All modules are optional — pulled in only when on the classpath
-    compileOnly project(':torana-protocol-mcp')
-    compileOnly project(':torana-protocol-websocket')
-    compileOnly project(':torana-protocol-grpc')
-    compileOnly project(':torana-protocol-rest')
-    compileOnly project(':torana-security-authn')
-    compileOnly project(':torana-security-authz-opa')
-    compileOnly project(':torana-security-vault')
-    compileOnly project(':torana-routing')
-    compileOnly project(':torana-pipeline')
-    compileOnly project(':torana-resilience')
-    compileOnly project(':torana-ratelimit-redis')
-    compileOnly project(':torana-connector-litellm')
-    compileOnly project(':torana-connector-http')
-    compileOnly project(':torana-connector-jdbc')
-    compileOnly project(':torana-connector-nosql')
-    compileOnly project(':torana-connector-s3')
-    compileOnly project(':torana-connector-nfs')
-    compileOnly project(':torana-streaming')
-    compileOnly project(':torana-observability')
+    implementation project(':torana-protocol-mcp')
+    implementation project(':torana-protocol-websocket')
+    implementation project(':torana-protocol-grpc')
+    implementation project(':torana-protocol-rest')
+    implementation project(':torana-security-authn')
+    implementation project(':torana-security-authz-opa')
+    implementation project(':torana-security-vault')
+    implementation project(':torana-routing')
+    implementation project(':torana-pipeline')
+    implementation project(':torana-resilience')
+    implementation project(':torana-ratelimit-redis')
+    implementation project(':torana-connector-litellm')
+    implementation project(':torana-connector-http')
+    implementation project(':torana-connector-jdbc')
+    implementation project(':torana-connector-nosql')
+    implementation project(':torana-connector-s3')
+    implementation project(':torana-connector-nfs')
+    implementation project(':torana-streaming')
+    implementation project(':torana-observability')
 
+    implementation 'org.slf4j:slf4j-api'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation project(':torana-test')
+    testImplementation project(':torana-routing')
+    testImplementation project(':torana-pipeline')
+    testImplementation project(':torana-security-authn')
+    testImplementation project(':torana-resilience')
+    testImplementation project(':torana-ratelimit-redis')
     testImplementation 'org.springframework.boot:spring-boot-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core'
 }
