@@ -9,14 +9,21 @@ dependencies {
     api project(':torana-core')
     api project(':torana-streaming')
 
-    implementation 'io.grpc:grpc-netty-shaded:1.69.0'
-    implementation 'io.grpc:grpc-stub:1.69.0'
-    implementation 'io.grpc:grpc-protobuf:1.69.0'
-    implementation 'io.grpc:grpc-services:1.69.0'
+    implementation enforcedPlatform('io.grpc:grpc-bom:1.69.0')
+
+    implementation 'io.grpc:grpc-api'
+    implementation 'io.grpc:grpc-core'
+    implementation 'io.grpc:grpc-netty-shaded'
+    implementation 'io.grpc:grpc-stub'
+    implementation 'io.grpc:grpc-protobuf'
+    implementation 'io.grpc:grpc-services'
+    implementation 'io.grpc:grpc-inprocess'
     implementation 'com.google.protobuf:protobuf-java-util:4.29.0'
+    implementation 'org.slf4j:slf4j-api'
+    compileOnly 'javax.annotation:javax.annotation-api:1.3.2'
 
     testImplementation project(':torana-test')
-    testImplementation 'io.grpc:grpc-testing:1.69.0'
+    testImplementation 'io.grpc:grpc-testing'
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 

@@ -2,7 +2,6 @@ package com.phaselume.torana.protocol.grpc.server;
 
 import com.phaselume.torana.protocol.grpc.GrpcProtocolProperties;
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import lombok.extern.slf4j.Slf4j;
