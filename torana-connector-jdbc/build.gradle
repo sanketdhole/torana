@@ -9,6 +9,7 @@ dependencies {
     implementation 'io.r2dbc:r2dbc-pool:1.0.2.RELEASE'
     implementation 'org.springframework.data:spring-data-r2dbc'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     // Drivers as optional (enterprise supplies their own)
     compileOnly 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
