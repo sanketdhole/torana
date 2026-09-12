@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Torana Enterprise AI Gateway Feature Roadmap & Gap Analysis",
+  "version": "1.0.0",
+  "description": "Comprehensive catalog of essential enterprise-grade features, capabilities, and gap analysis required for production deployment in Fortune 500 and enterprise environments.",
+  "categories": [
+    {
+      "id": "ai_safety_security",
+      "name": "AI Safety, Guardrails & Security",
+      "description": "Zero-trust protection, data loss prevention, and prompt attack defenses.",
+      "features": [
+        {
+          "id": "SEC-001",
+          "title": "Real-time PII & Sensitive Data Masking / Tokenization",
+          "priority": "P0 (Critical)",
+          "current_status": "missing",
+          "complexity": "medium",
+          "target_module": "torana-security-guardrails",
+          "description": "Automatic redaction, pseudonymization, or hashing of Personally Identifiable Information (SSN, credit cards, emails, phone numbers) and Protected Health Information (PHI) before forwarding payloads to external LLM providers.",
+          "enterprise_value": "Ensures strict compliance with GDPR, HIPAA, and CCPA; eliminates the risk of sensitive customer data leaking into public LLM training datasets."
+        },
+        {
+          "id": "SEC-002",
+          "title": "Prompt Injection & Jailbreak Defense Interceptor",
+          "priority": "P0 (Critical)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-security-guardrails",
+          "description": "Inbound payload inspection that evaluates prompt injection, system prompt leakage attacks, and adversarial jailbreak attempts using model guardrails (e.g. Llama Guard, NeMo, or Lakera integration) before reaching backends.",
+          "enterprise_value": "Protects enterprise systems and agents from malicious prompt manipulation, data exfiltration, and unauthorized privilege escalation."
+        },
+        {
+          "id": "SEC-003",
+          "title": "Outbound Secret & Credential Leakage Scanner",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "low",
+          "target_module": "torana-security-guardrails",
+          "description": "Scans prompts and responses for accidental inclusion of AWS access keys, private RSA keys, database connection strings, and internal JWT tokens.",
+          "enterprise_value": "Prevents catastrophic developer error where private enterprise keys are pasted into prompt workflows."
+        },
+        {
+          "id": "SEC-004",
+          "title": "Content Moderation & Harmful Output Filtering",
+          "priority": "P1 (High)",
+          "current_status": "partially_implemented",
+          "complexity": "medium",
+          "target_module": "torana-pipeline",
+          "description": "Bi-directional content safety checks for toxicity, hate speech, sexual content, and self-harm, with configurable block/flag actions per route.",
+          "enterprise_value": "Protects brand reputation and satisfies corporate compliance policies."
+        }
+      ]
+    },
+    {
+      "id": "finops_cost_governance",
+      "name": "FinOps, Cost Intelligence & Token Quotas",
+      "description": "Granular budget controls, intelligent routing, and caching to reduce AI spend.",
+      "features": [
+        {
+          "id": "FIN-001",
+          "title": "Multi-Tenant Token Quotas & Hard/Soft Budget Limits",
+          "priority": "P0 (Critical)",
+          "current_status": "partially_implemented",
+          "complexity": "medium",
+          "target_module": "torana-ratelimit-redis",
+          "description": "Enforce Token-Per-Minute (TPM), Token-Per-Day (TPD), and dollar-denominated spend budgets per department, project, API key, or user. Includes webhook alerts at 80% soft limit and automatic request blocking at 100% hard limit.",
+          "enterprise_value": "Prevents runaway LLM bills caused by infinite agent loops or rogue internal applications."
+        },
+        {
+          "id": "FIN-002",
+          "title": "Semantic Response Caching (Vector Similarity)",
+          "priority": "P1 (High)",
+          "current_status": "planned",
+          "complexity": "high",
+          "target_module": "torana-pipeline",
+          "description": "Response caching based on vector embedding cosine similarity (e.g. Redis Vector Store or pgvector). If a semantically identical query was answered previously, returns cached response in <5ms without calling the LLM.",
+          "enterprise_value": "Reduces external API token costs by 20%–40% and cuts p50 response latency from 3,000ms to 5ms."
+        },
+        {
+          "id": "FIN-003",
+          "title": "Smart Cost-Optimized Dynamic Model Router",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-routing",
+          "description": "Analyzes prompt complexity and token length to route simple queries to low-cost models (e.g., GPT-4o-mini, Claude Haiku) and reserves frontier models (GPT-4o, Claude Opus) for complex multi-step reasoning.",
+          "enterprise_value": "Dramatically lowers average cost-per-query across the enterprise without degrading response quality."
+        },
+        {
+          "id": "FIN-004",
+          "title": "Token Usage & Cost Attribution Tagging",
+          "priority": "P1 (High)",
+          "current_status": "partially_implemented",
+          "complexity": "low",
+          "target_module": "torana-observability",
+          "description": "Emits structured FinOps billing records tagging exact prompt tokens, completion tokens, cached tokens, and estimated dollar costs per cost center and team.",
+          "enterprise_value": "Enables internal chargebacks and financial accountability across departments."
+        }
+      ]
+    },
+    {
+      "id": "agentic_mcp_governance",
+      "name": "Agentic Architecture & MCP Tool Governance",
+      "description": "Capabilities for Model Context Protocol (MCP) and multi-agent coordination.",
+      "features": [
+        {
+          "id": "AGT-001",
+          "title": "Fine-Grained Tool RBAC & Execution Policies",
+          "priority": "P0 (Critical)",
+          "current_status": "partially_implemented",
+          "complexity": "medium",
+          "target_module": "torana-protocol-mcp",
+          "description": "Role-Based Access Control and OPA policies specifically for individual MCP tools (e.g. allowing User A to run 'read_customer_doc' but restricting 'delete_record' or 'execute_sql').",
+          "enterprise_value": "Prevents autonomous agents from executing destructive or unauthorized tool actions against internal backends."
+        },
+        {
+          "id": "AGT-002",
+          "title": "Human-in-the-Loop (HITL) Tool Approval Flow",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-pipeline",
+          "description": "Suspends high-impact agent tool executions (e.g., financial transactions, database writes) into a pending state, dispatching an approval request via Slack/Email/Webhook until an authorized human approves.",
+          "enterprise_value": "Critical requirement for regulated industries (finance, healthcare) before deploying autonomous agents in production."
+        },
+        {
+          "id": "AGT-003",
+          "title": "Distributed Agent Session & Memory Management",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "medium",
+          "target_module": "torana-streaming",
+          "description": "Stateful agent conversation memory and context window management backed by distributed stores (Redis/DynamoDB), with automatic context summarization when token limits are approached.",
+          "enterprise_value": "Enables persistent multi-turn agent conversations across stateless gateway clusters."
+        },
+        {
+          "id": "AGT-004",
+          "title": "Agent-to-Agent (A2A) Secure Communication Mesh",
+          "priority": "P2 (Medium)",
+          "current_status": "planned",
+          "complexity": "high",
+          "target_module": "torana-pipeline",
+          "description": "Enables agents to discover, authenticate, and call other agents through Torana routes with propagated identity, tenant scoping, and mutual TLS.",
+          "enterprise_value": "Enables enterprise-wide autonomous multi-agent swarms with zero-trust perimeter control."
+        }
+      ]
+    },
+    {
+      "id": "traffic_routing_resilience",
+      "name": "Traffic Management, High-Scale Routing & Resilience",
+      "description": "Enterprise-scale routing algorithms, load balancing, and automated fallbacks.",
+      "features": [
+        {
+          "id": "TRF-001",
+          "title": "Radix Tree (Trie) High-Scale Route Matching Engine",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "medium",
+          "target_module": "torana-routing",
+          "description": "Upgrades the route registry from linear iteration to a Radix Tree (Path Trie) supporting O(K) lookup times across 10,000+ dynamic routes.",
+          "enterprise_value": "Guarantees sub-millisecond route matching performance in massive enterprise multi-tenant deployments."
+        },
+        {
+          "id": "TRF-002",
+          "title": "Canary & Weighted Multi-Model Traffic Splitting",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "medium",
+          "target_module": "torana-routing",
+          "description": "Traffic splitting by percentage across models (e.g. 90% GPT-4o, 10% Claude 3.5 Sonnet) or A/B testing of prompt variations and pipeline steps.",
+          "enterprise_value": "Allows safe rollouts of new model versions and empirical prompt engineering benchmarks."
+        },
+        {
+          "id": "TRF-003",
+          "title": "Cascading Model Fallback & Provider Outage Failover",
+          "priority": "P0 (Critical)",
+          "current_status": "partially_implemented",
+          "complexity": "medium",
+          "target_module": "torana-resilience",
+          "description": "Automated failover chain (e.g. OpenAI -> Azure OpenAI -> Anthropic -> Self-hosted Ollama/vLLM) with circuit breaking on provider HTTP 429 (Rate Limit) and HTTP 503 (Outage) errors.",
+          "enterprise_value": "Prevents external AI provider outages from causing enterprise downtime; guarantees 99.99% application availability."
+        }
+      ]
+    },
+    {
+      "id": "observability_evals",
+      "name": "Observability, Telemetry & LLM Evals",
+      "description": "Comprehensive visibility into token latency, quality evaluations, and compliance audit streams.",
+      "features": [
+        {
+          "id": "OBS-001",
+          "title": "OpenTelemetry GenAI Semantic Conventions Compliance",
+          "priority": "P0 (Critical)",
+          "current_status": "partially_implemented",
+          "complexity": "low",
+          "target_module": "torana-observability",
+          "description": "Full alignment with OpenTelemetry standard attributes (gen_ai.system, gen_ai.request.model, gen_ai.usage.prompt_tokens, gen_ai.usage.completion_tokens) exported to Datadog, Dynatrace, New Relic, or Prometheus.",
+          "enterprise_value": "Integrates out-of-the-box with existing enterprise APM monitoring dashboards."
+        },
+        {
+          "id": "OBS-002",
+          "title": "Real-time SIEM Audit Log Exporters (Splunk, Elastic, Kafka)",
+          "priority": "P1 (High)",
+          "current_status": "partially_implemented",
+          "complexity": "medium",
+          "target_module": "torana-observability",
+          "description": "Stream SHA-256 hashed audit events directly into enterprise SIEM pipelines (Splunk, Elasticsearch, AWS CloudWatch, Apache Kafka) for non-repudiation.",
+          "enterprise_value": "Mandatory for passing SOC-2, ISO-27001, and financial regulatory audits."
+        },
+        {
+          "id": "OBS-003",
+          "title": "LLM Response Quality Evaluation & Feedback Capture",
+          "priority": "P2 (Medium)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-observability",
+          "description": "Asynchronous evaluation of LLM answers against ground truth or hallucination heuristics; capture end-user feedback (thumbs up/down) linked to trace IDs for model fine-tuning.",
+          "enterprise_value": "Helps AI engineering teams monitor model drift, quality degradation, and optimize prompts over time."
+        }
+      ]
+    },
+    {
+      "id": "admin_platform_experience",
+      "name": "Admin Management, GitOps & Platform DevEx",
+      "description": "Enterprise control plane, Kubernetes integration, and developer tooling.",
+      "features": [
+        {
+          "id": "ADM-001",
+          "title": "Enterprise Admin Web UI & Management Dashboard",
+          "priority": "P0 (Critical)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-admin-ui",
+          "description": "Rich visual management console for live traffic visualization, route configuration, token spend analytics by tenant, active API keys, and audit log inspection.",
+          "enterprise_value": "Gives non-technical platform administrators and FinOps managers full operational control without editing raw YAML."
+        },
+        {
+          "id": "ADM-002",
+          "title": "Kubernetes Operator & Custom Resource Definitions (CRDs)",
+          "priority": "P1 (High)",
+          "current_status": "missing",
+          "complexity": "high",
+          "target_module": "torana-deployment",
+          "description": "Declarative Kubernetes CRDs (ToranaRoute, ToranaPipeline, ToranaPolicy) allowing platform teams to manage gateway routes natively via GitOps and ArgoCD.",
+          "enterprise_value": "Enables seamless cloud-native GitOps deployment in Kubernetes clusters."
+        },
+        {
+          "id": "ADM-003",
+          "title": "Interactive Route & Pipeline Testing Playground / Debugger",
+          "priority": "P2 (Medium)",
+          "current_status": "missing",
+          "complexity": "medium",
+          "target_module": "torana-admin-ui",
+          "description": "Browser-based sandbox to test SpEL expressions, preview RAG chunk formatting, test OPA rego policies, and debug pipeline step transitions with mock inputs.",
+          "enterprise_value": "Accelerates developer onboarding and eliminates misconfiguration errors before deploying to production."
+        }
+      ]
+    }
+  ]
+}
