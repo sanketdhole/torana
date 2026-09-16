@@ -51,14 +51,23 @@ public class ToranaObservabilityAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AuditSinkRegistry auditSinkRegistry(List<AuditSink> sinks) {
-        return new AuditSinkRegistry(sinks);
+    public AuditSinkRegistry auditSinkRegistry(LogAuditSink logAuditSink,
+                                               ObjectProvider<RedisStreamAuditSink> redisStreamAuditSinkProvider) {
+        AuditSinkRegistry registry = new AuditSinkRegistry();
+        if (logAuditSink != null) {
+            registry.register(logAuditSink);
+        }
+        RedisStreamAuditSink redisSink = redisStreamAuditSinkProvider != null ? redisStreamAuditSinkProvider.getIfAvailable() : null;
+        if (redisSink != null) {
+            registry.register(redisSink);
+        }
+        return registry;
     }
 
     @Bean
     @Primary
     @ConditionalOnMissingBean(name = "primaryAuditSink")
-    public AuditSink primaryAuditSink(AuditSinkRegistry registry) {
+    public CompositeAuditSink primaryAuditSink(AuditSinkRegistry registry) {
         return registry.toComposite();
     }
 

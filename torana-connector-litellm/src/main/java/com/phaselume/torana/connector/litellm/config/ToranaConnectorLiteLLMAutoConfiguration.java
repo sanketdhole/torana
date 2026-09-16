@@ -46,8 +46,8 @@ public class ToranaConnectorLiteLLMAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
-    public LiteLLMHealthIndicator liteLLMHealthIndicator(ObjectProvider<WebClient.Builder> webClientBuilderProvider) {
+    @ConditionalOnMissingBean(name = "connectorLiteLLMHealthIndicator")
+    public LiteLLMHealthIndicator connectorLiteLLMHealthIndicator(ObjectProvider<WebClient.Builder> webClientBuilderProvider) {
         return new LiteLLMHealthIndicator(webClientBuilderProvider.getIfAvailable(), "http://localhost:4000");
     }
 

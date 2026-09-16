@@ -10,6 +10,7 @@ import com.phaselume.torana.ratelimit.redis.SlidingWindowLuaScript;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 
@@ -17,6 +18,7 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
  * Auto-configuration for Torana Redis Rate Limiting module.
  */
 @AutoConfiguration
+@ConditionalOnProperty(prefix = "torana.ratelimit", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class ToranaRateLimitAutoConfiguration {
 
     @Bean

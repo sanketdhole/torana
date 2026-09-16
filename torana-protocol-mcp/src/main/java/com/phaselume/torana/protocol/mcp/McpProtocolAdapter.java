@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -51,7 +52,12 @@ public class McpProtocolAdapter implements ProtocolAdapter {
     private final McpHeartbeatEmitter heartbeatEmitter;
     private final McpSessionManager sessionManager;
 
-    public McpProtocolAdapter(McpProtocolProperties properties) {
+    public McpProtocolAdapter() {
+        this(new McpProtocolProperties());
+    }
+
+    @Autowired
+    public McpProtocolAdapter(@Autowired(required = false) McpProtocolProperties properties) {
         this.properties = properties != null ? properties : new McpProtocolProperties();
         this.codec = new McpMessageCodec();
         this.requestMapper = new McpToAgentRequestMapper(this.codec);

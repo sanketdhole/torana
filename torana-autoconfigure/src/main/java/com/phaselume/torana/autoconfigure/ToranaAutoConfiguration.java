@@ -6,6 +6,7 @@ import com.phaselume.torana.autoconfigure.ratelimit.RateLimitAutoConfiguration;
 import com.phaselume.torana.autoconfigure.resilience.ResilienceAutoConfiguration;
 import com.phaselume.torana.autoconfigure.routing.RoutingAutoConfiguration;
 import com.phaselume.torana.autoconfigure.security.ToranaSecurityAutoConfiguration;
+import com.phaselume.torana.core.config.ToranaProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

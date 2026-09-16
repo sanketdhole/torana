@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -42,7 +43,12 @@ public class RestProtocolAdapter implements ProtocolAdapter {
     private final List<PathRewriteRule> rewriteRules;
     private final ResponseNormalizationFilter normalizationFilter;
 
-    public RestProtocolAdapter(RestProtocolProperties properties) {
+    public RestProtocolAdapter() {
+        this(new RestProtocolProperties());
+    }
+
+    @Autowired
+    public RestProtocolAdapter(@Autowired(required = false) RestProtocolProperties properties) {
         this.properties = properties != null ? properties : new RestProtocolProperties();
         this.rewriteRules = initRewriteRules(this.properties);
         this.normalizationFilter = new ResponseNormalizationFilter();

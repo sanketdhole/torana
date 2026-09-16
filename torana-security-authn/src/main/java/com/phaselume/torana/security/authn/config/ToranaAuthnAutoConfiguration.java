@@ -28,6 +28,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
@@ -176,5 +178,17 @@ public class ToranaAuthnAutoConfiguration {
     @ConditionalOnMissingBean
     public ToranaAuthenticationWebFilter toranaAuthenticationWebFilter(AuthenticationProviderChain providerChain) {
         return new ToranaAuthenticationWebFilter(providerChain);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SecurityWebFilterChain springSecurityWebFilterChain(ServerHttpSecurity http) {
+        return http
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+                .logout(ServerHttpSecurity.LogoutSpec::disable)
+                .authorizeExchange(exchanges -> exchanges.anyExchange().permitAll())
+                .build();
     }
 }

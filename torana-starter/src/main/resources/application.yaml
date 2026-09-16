@@ -1,0 +1,126 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: torana-gateway
+  main:
+    banner-mode: console
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    redis:
+      enabled: false
+    mongo:
+      enabled: false
+
+# ─── Torana Enterprise AI Gateway Configuration ──────────────────────────────
+torana:
+  enabled: true
+
+  # ─── Ingress Protocols ──────────────────────────────────────────────────────
+  protocols:
+    mcp:
+      enabled: true
+      path: /mcp/v1
+    rest:
+      enabled: true
+      path: /api/v1/**
+    websocket:
+      enabled: true
+      path: /ws/**
+    grpc:
+      enabled: false
+      port: 9090
+
+  # ─── Security & Identity ────────────────────────────────────────────────────
+  security:
+    enabled: true
+    authn:
+      enabled: true
+      allow-anonymous: true
+      default-provider: api-key
+      api-key:
+        enabled: true
+        header: X-Api-Key
+    authz:
+      enabled: false  # Can be enabled when OPA container is running
+
+  # ─── Rate Limiting ──────────────────────────────────────────────────────────
+  ratelimit:
+    enabled: false    # Can be enabled when Redis is running
+    redis-url: redis://localhost:6379
+
+  # ─── Observability ──────────────────────────────────────────────────────────
+  observability:
+    enabled: true
+    audit:
+      enabled: true
+      sink: log
+    tracing:
+      enabled: false
+
+  # ─── Declarative Routes ─────────────────────────────────────────────────────
+  routing:
+    routes:
+      - id: mcp-tool-gateway
+        path: /mcp/v1/**
+        methods: [POST, GET]
+        pipeline-ref: default-mcp-pipeline
+        metadata:
+          protocol: mcp
+          description: "Model Context Protocol JSON-RPC tool gateway"
+
+      - id: rest-agent-chat
+        path: /api/v1/chat/**
+        methods: [POST, GET]
+        pipeline-ref: default-chat-pipeline
+        metadata:
+          protocol: rest
+          description: "REST chat completion endpoint"
+
+  # ─── Pipeline Execution Chains ──────────────────────────────────────────────
+  pipeline:
+    pipelines:
+      - id: default-mcp-pipeline
+        timeout-ms: 30000
+        steps:
+          - type: header-enrich
+            config:
+              X-Gateway-Node: "torana-node-1"
+          - type: audit
+            config:
+              include-payload-hash: true
+
+      - id: default-chat-pipeline
+        timeout-ms: 45000
+        steps:
+          - type: header-enrich
+            config:
+              X-Gateway-Engine: "torana-reactive-v1"
+          - type: audit
+            config:
+              include-payload-hash: true
+
+logging:
+  level:
+    root: INFO
+    com.phaselume.torana: DEBUG
+    org.springframework.web: INFO

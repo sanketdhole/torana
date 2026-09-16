@@ -1,4 +1,13 @@
-// torana-starter — Convenience Spring Boot starter: pull this one dep to get everything
+apply plugin: 'application'
+
+application {
+    mainClass = 'com.phaselume.torana.starter.ToranaApplication'
+}
+
+task bootRun(dependsOn: 'run') {
+    group = 'application'
+    description = 'Runs the Torana Gateway application'
+}
 
 dependencies {
     api project(':torana-autoconfigure')
@@ -28,6 +37,8 @@ dependencies {
     compileOnly project(':torana-connector-nfs')
 
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation project(':torana-test')
@@ -35,3 +46,4 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core'
 }
+

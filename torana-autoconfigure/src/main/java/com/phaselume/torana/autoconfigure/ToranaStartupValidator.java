@@ -1,5 +1,6 @@
 package com.phaselume.torana.autoconfigure;
 
+import com.phaselume.torana.core.config.ToranaProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -32,14 +33,14 @@ public class ToranaStartupValidator implements ApplicationRunner {
 
             log.info("Torana Security: Authn={}, Authz={}",
                     properties.getSecurity().getAuthn().isEnabled(),
-                    properties.getSecurity().getAuthz().getEngine()
+                    properties.getSecurity().getAuthz().isEnabled()
             );
 
-            if (properties.getRoutes() != null && !properties.getRoutes().isEmpty()) {
-                log.info("Loaded {} configured Torana routes", properties.getRoutes().size());
-                properties.getRoutes().forEach((key, route) -> {
-                    if (route.getConnectorRef() == null && route.getPath() == null) {
-                        log.warn("Route [{}] has no connectorRef or path declared", key);
+            if (properties.getRouting() != null && properties.getRouting().getRoutes() != null && !properties.getRouting().getRoutes().isEmpty()) {
+                log.info("Loaded {} configured Torana routes", properties.getRouting().getRoutes().size());
+                properties.getRouting().getRoutes().forEach(route -> {
+                    if (route.getPath() == null) {
+                        log.warn("Route [{}] has no path declared", route.getId());
                     }
                 });
             }
@@ -48,3 +49,4 @@ public class ToranaStartupValidator implements ApplicationRunner {
         log.info("Torana Gateway configuration validated successfully.");
     }
 }
+
