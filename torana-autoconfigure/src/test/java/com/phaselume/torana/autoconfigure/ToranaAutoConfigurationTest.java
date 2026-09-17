@@ -1,5 +1,6 @@
 package com.phaselume.torana.autoconfigure;
 
+import com.phaselume.torana.core.config.ToranaProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
